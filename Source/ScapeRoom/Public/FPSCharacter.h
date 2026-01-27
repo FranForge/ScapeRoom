@@ -38,6 +38,9 @@ protected:
 	UPROPERTY(EditDefaultsOnly, Category = "Input")
 	UInputAction* LookHorizontalAction;
 
+	UPROPERTY(EditDefaultsOnly, Category = "Input")
+	UInputAction* RunAction;
+
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Look")
 	UCameraComponent* FPSCamera;
 
@@ -52,6 +55,12 @@ protected:
 
 	UPROPERTY(EditAnywhere, Category = "Look")
 	float LookVerticalMaxAngle = 89.0f;
+
+	UPROPERTY(EditAnywhere, Category = "Movement")
+	float NormalSpeed = 600.0f;
+
+	UPROPERTY(EditAnywhere, Category = "Movement")
+	float RunningSpeed = 1200.0f;
 
 
 	/// <summary>
@@ -77,6 +86,16 @@ protected:
 	/// </summary>
 	/// <param name="Value"></param>
 	virtual void LookHorizontal(const FInputActionValue& Value);
+
+	/// <summary>
+	/// Hace que el jugador comience a correr.
+	/// </summary>
+	virtual void StartRun();
+
+	/// <summary>
+	/// Hace que el jugador deje de correr.
+	/// </summary>
+	virtual void StopRun();
 
 public:	
 	virtual void Tick(float DeltaTime) override;

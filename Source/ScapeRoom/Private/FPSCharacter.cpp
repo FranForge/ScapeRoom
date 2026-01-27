@@ -25,6 +25,9 @@ void AFPSCharacter::BeginPlay()
 	{
 		FPSCamera = Cameras[0];
 	}
+
+	//Establece la velocidad del personaje.
+	GetCharacterMovement()->MaxWalkSpeed = NormalSpeed;
 }
 
 void AFPSCharacter::MoveForward(const FInputActionValue& Value)
@@ -77,6 +80,18 @@ void AFPSCharacter::LookHorizontal(const FInputActionValue& Value)
 	AddControllerYawInput(AxisValue * LookHorizontalSensitivity);
 }
 
+void AFPSCharacter::StartRun()
+{
+	//Establece la velocidad de carrera.
+	GetCharacterMovement()->MaxWalkSpeed = RunningSpeed;
+}
+
+void AFPSCharacter::StopRun()
+{
+	//Establece la velocidad normal.
+	GetCharacterMovement()->MaxWalkSpeed = NormalSpeed;
+}
+
 void AFPSCharacter::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
@@ -94,6 +109,8 @@ void AFPSCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCompon
 		EnhancedInput->BindAction(MoveRightAction, ETriggerEvent::Triggered, this, &AFPSCharacter::MoveRight);
 		EnhancedInput->BindAction(LookVerticalAction, ETriggerEvent::Triggered, this, &AFPSCharacter::LookVertical);
 		EnhancedInput->BindAction(LookHorizontalAction, ETriggerEvent::Triggered, this, &AFPSCharacter::LookHorizontal);
+		EnhancedInput->BindAction(RunAction, ETriggerEvent::Started, this, &AFPSCharacter::StartRun);
+		EnhancedInput->BindAction(RunAction, ETriggerEvent::Completed, this, &AFPSCharacter::StopRun);
 	}
 
 	//Registra el Mapping Context en el PlayerController.
