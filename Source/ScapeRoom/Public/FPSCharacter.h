@@ -31,6 +31,16 @@ protected:
 	UPROPERTY(EditDefaultsOnly, Category = "Input")
 	UInputAction* MoveRightAction;
 
+	UPROPERTY(EditDefaultsOnly, Category = "Input")
+	UInputAction* LookVerticalAction;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Input")
+	UInputAction* LookHorizontalAction;
+
+	UPROPERTY(EditAnywhere, Category = "Look")
+	float LookSensitivity = 0.5f;
+
+
 	/// <summary>
 	/// Mueve al jugador hacia delante o hacia atras.
 	/// </summary>
@@ -42,6 +52,18 @@ protected:
 	/// </summary>
 	/// <param name="Value"></param>
 	virtual void MoveRight(const FInputActionValue& Value);
+
+	/// <summary>
+	/// Hace al jugador mirar en vertical rotando la camara unicamente.
+	/// </summary>
+	/// <param name="Value"></param>
+	virtual void LookVertical(const FInputActionValue& Value);
+
+	/// <summary>
+	/// Hace al jugador mirar hacia izquierda y derecha rotando al jugador mismo.
+	/// </summary>
+	/// <param name="Value"></param>
+	virtual void LookHorizontal(const FInputActionValue& Value);
 
 public:	
 	virtual void Tick(float DeltaTime) override;

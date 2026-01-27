@@ -39,6 +39,20 @@ void AFPSCharacter::MoveRight(const FInputActionValue& Value)
 	}
 }
 
+void AFPSCharacter::LookVertical(const FInputActionValue& Value)
+{
+	
+}
+
+void AFPSCharacter::LookHorizontal(const FInputActionValue& Value)
+{
+	//Obtiene el valor del eje de la accion.
+	float AxisValue = Value.Get<float>();
+
+	//Rota al personaje en el eje Yaw.
+	AddControllerYawInput(AxisValue * LookSensitivity);
+}
+
 void AFPSCharacter::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
@@ -54,6 +68,8 @@ void AFPSCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCompon
 	{
 		EnhancedInput->BindAction(MoveForwardAction, ETriggerEvent::Triggered, this, &AFPSCharacter::MoveForward);
 		EnhancedInput->BindAction(MoveRightAction, ETriggerEvent::Triggered, this, &AFPSCharacter::MoveRight);
+		EnhancedInput->BindAction(LookVerticalAction, ETriggerEvent::Triggered, this, &AFPSCharacter::LookVertical);
+		EnhancedInput->BindAction(LookHorizontalAction, ETriggerEvent::Triggered, this, &AFPSCharacter::LookHorizontal);
 	}
 
 	//Registra el Mapping Context en el PlayerController.
