@@ -15,19 +15,27 @@ void AFPSCharacter::BeginPlay()
 	
 }
 
-void AFPSCharacter::MoveForward(float Value)
+void AFPSCharacter::MoveForward(const FInputActionValue& Value)
 {
-	if (Controller && Value != 0.0f)
+	//Obtiene el valor del eje de la accion.
+	float AxisValue = Value.Get<float>();
+
+	//Si existe un controlador y el valor del eje es diferente a 0, mueve el personaje.
+	if (Controller && AxisValue != 0.0f)
 	{
-		AddMovementInput(GetActorForwardVector(), Value);
+		AddMovementInput(GetActorForwardVector(), AxisValue);
 	}
 }
 
-void AFPSCharacter::MoveRight(float Value)
+void AFPSCharacter::MoveRight(const FInputActionValue& Value)
 {
-	if (Controller && Value != 0.0f)
+	//Obtiene el valor del eje de la accion.
+	float AxisValue = Value.Get<float>();
+
+	//Si existe un controlador y el valor del eje es diferente a 0, mueve el personaje.
+	if (Controller && AxisValue != 0.0f)
 	{
-		AddMovementInput(GetActorRightVector(), Value);
+		AddMovementInput(GetActorRightVector(), AxisValue);
 	}
 }
 
@@ -41,8 +49,21 @@ void AFPSCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCompon
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
 
-	//Movimiento del jugador.
-	PlayerInputComponent->BindAxis("MoveForward", this, &AFPSCharacter::MoveForward);
-	PlayerInputComponent->BindAxis("MoveRight", this, &AFPSCharacter::MoveRight);
+	//Castea a EnhancedInputComponent para usar Enhanced Input.
+	if (UEnhancedInputComponent* EnhancedInput = Cast<UEnhancedInputComponent>(PlayerInputComponent))
+	{
+		EnhancedInput->BindAction(MoveForwardAction, ETriggerEvent::Triggered, this, &AFPSCharacter::MoveForward);
+		EnhancedInput->BindAction(MoveRightAction, ETriggerEvent::Triggered, this, &AFPSCharacter::MoveRight);
+	}
+
+	//Registra el Mapping Context en el PlayerController.
+	if (APlayerController* PC = Cast<APlayerController>(GetController()))
+	{
+		if (UEnhancedInputLocalPlayerSubsystem* Subsystem = 
+			ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(PC->GetLocalPlayer()))
+		{
+			Subsystem->AddMappingContext(DefaultMappingContext, 0);
+		}
+	}
 }
 
