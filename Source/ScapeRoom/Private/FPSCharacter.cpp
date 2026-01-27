@@ -13,6 +13,18 @@ void AFPSCharacter::BeginPlay()
 {
 	Super::BeginPlay();
 	
+	//Busca el componente Camara entre los componentes del personaje.
+	//Crea un array de las camaras que tiene el personaje.
+	TArray<UCameraComponent*> Cameras;
+
+	//Establece el array con todas las camaras que tiene el personaje.
+	GetComponents<UCameraComponent>(Cameras);
+
+	//Si hay al menos una camara, establece la primera como la camara del personaje.
+	if (Cameras.Num() > 0)
+	{
+		FPSCamera = Cameras[0];
+	}
 }
 
 void AFPSCharacter::MoveForward(const FInputActionValue& Value)
@@ -41,7 +53,19 @@ void AFPSCharacter::MoveRight(const FInputActionValue& Value)
 
 void AFPSCharacter::LookVertical(const FInputActionValue& Value)
 {
-	
+	float AxisValue = Value.Get<float>();
+
+	//Si la camara no esta asignada no se hace nada.
+	if (!FPSCamera) return;
+
+	//Crea una nueva rotacion para la camara con respecto a la rotacion actual de esta.
+	FRotator NewRotation = FPSCamera->GetRelativeRotation();
+
+	//Limita la rotacion de la camara a unos limites.
+	NewRotation.Pitch = FMath::Clamp(NewRotation.Pitch + AxisValue * LookVerticalSensitivity, LookVerticalMinAngle, LookVerticalMaxAngle);
+
+	//Aplica la rotacion a la camara.
+	FPSCamera->SetRelativeRotation(NewRotation);
 }
 
 void AFPSCharacter::LookHorizontal(const FInputActionValue& Value)
@@ -50,7 +74,7 @@ void AFPSCharacter::LookHorizontal(const FInputActionValue& Value)
 	float AxisValue = Value.Get<float>();
 
 	//Rota al personaje en el eje Yaw.
-	AddControllerYawInput(AxisValue * LookSensitivity);
+	AddControllerYawInput(AxisValue * LookHorizontalSensitivity);
 }
 
 void AFPSCharacter::Tick(float DeltaTime)

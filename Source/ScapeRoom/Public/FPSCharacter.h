@@ -9,6 +9,7 @@
 #include "EnhancedInputSubsystems.h"
 #include "GameFramework/Character.h"
 #include "GameFramework/CharacterMovementComponent.h"
+#include "Camera/CameraComponent.h"
 #include "FPSCharacter.generated.h"
 
 UCLASS()
@@ -37,8 +38,20 @@ protected:
 	UPROPERTY(EditDefaultsOnly, Category = "Input")
 	UInputAction* LookHorizontalAction;
 
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Look")
+	UCameraComponent* FPSCamera;
+
 	UPROPERTY(EditAnywhere, Category = "Look")
-	float LookSensitivity = 0.5f;
+	float LookHorizontalSensitivity = 0.5f;
+
+	UPROPERTY(EditAnywhere, Category = "Look")
+	float LookVerticalSensitivity = 1.0f;
+
+	UPROPERTY(EditAnywhere, Category = "Look")
+	float LookVerticalMinAngle = -89.0f;
+
+	UPROPERTY(EditAnywhere, Category = "Look")
+	float LookVerticalMaxAngle = 89.0f;
 
 
 	/// <summary>
