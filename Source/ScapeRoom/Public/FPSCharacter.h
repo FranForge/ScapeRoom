@@ -62,6 +62,15 @@ protected:
 	UPROPERTY(EditAnywhere, Category = "Movement")
 	float RunningSpeed = 1200.0f;
 
+	UPROPERTY(EditAnywhere, Category = "Movement")
+	float MaxStamina = 100.0f;
+
+	UPROPERTY(EditAnywhere, Category = "Movement")
+	float StaminaConsumptionRate = 20.0f;
+
+	UPROPERTY(EditAnywhere, Category = "Movement")
+	float StaminaRecoveryRate = 10.0f;
+
 
 	/// <summary>
 	/// Mueve al jugador hacia delante o hacia atras.
@@ -86,6 +95,34 @@ protected:
 	/// </summary>
 	/// <param name="Value"></param>
 	virtual void LookHorizontal(const FInputActionValue& Value);
+
+	/// <summary>
+	/// Energia que tiene actualmente el jugador, para poder correr.
+	/// </summary>
+	float Stamina;
+
+	/// <summary>
+	/// Indica si esta corriendo o no.
+	/// </summary>
+	bool bIsRunning;
+
+	/// <summary>
+	/// Consume energia si esta corriendo.
+	/// </summary>
+	/// <param name="DeltaTime"></param>
+	virtual void ConsumeStamina(float DeltaTime);
+
+	/// <summary>
+	/// Recupera energia si no esta corriendo.
+	/// </summary>
+	/// <param name="DeltaTime"></param>
+	virtual void RecoverStamina(float DeltaTime);
+
+	/// <summary>
+	/// Indica si el jugador puede correr o no.
+	/// </summary>
+	/// <returns></returns>
+	virtual bool CanRun();
 
 	/// <summary>
 	/// Hace que el jugador comience a correr.

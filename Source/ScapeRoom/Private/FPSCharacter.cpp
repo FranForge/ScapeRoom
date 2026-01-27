@@ -80,22 +80,59 @@ void AFPSCharacter::LookHorizontal(const FInputActionValue& Value)
 	AddControllerYawInput(AxisValue * LookHorizontalSensitivity);
 }
 
+void AFPSCharacter::ConsumeStamina(float DeltaTime)
+{
+	//Resta la energia y la limita.
+	Stamina -= StaminaConsumptionRate * DeltaTime;
+	Stamina = FMath::Clamp(Stamina, 0.0f, MaxStamina);
+}
+
+void AFPSCharacter::RecoverStamina(float DeltaTime)
+{
+	//Suma la energia y la limita.
+	Stamina += StaminaRecoveryRate * DeltaTime;
+	Stamina = FMath::Clamp(Stamina, 0.0f, MaxStamina);
+}
+
+bool AFPSCharacter::CanRun()
+{
+	//Puede correr si tiene energia.
+	return Stamina > 0.0f;
+}
+
 void AFPSCharacter::StartRun()
 {
+	//Si no puede correr, no hace nada.
+	if (!CanRun()) return;
+
 	//Establece la velocidad de carrera.
 	GetCharacterMovement()->MaxWalkSpeed = RunningSpeed;
+	bIsRunning = true;
 }
 
 void AFPSCharacter::StopRun()
 {
 	//Establece la velocidad normal.
 	GetCharacterMovement()->MaxWalkSpeed = NormalSpeed;
+	bIsRunning = false;
 }
 
 void AFPSCharacter::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
+	//Si esta corriendo consume energia, si no, la recupera.
+	if (bIsRunning)
+	{
+		ConsumeStamina(DeltaTime);
+
+		//Si ya no puede correr, lo detiene.
+		if (!CanRun()) StopRun();
+	}
+	else
+	{
+		RecoverStamina(DeltaTime);
+	}
 }
 
 void AFPSCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
