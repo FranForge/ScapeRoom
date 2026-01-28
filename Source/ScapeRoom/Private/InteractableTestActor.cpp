@@ -35,5 +35,10 @@ void AInteractableTestActor::Interact_Implementation(AActor* Caller)
 	}
 
 	UE_LOG(LogTemp, Warning, TEXT("Interaccion realizada por: %s"), *Caller->GetName());
+
+	//Rota simplemente para dar un feedback visual de la interaccion.
+	FRotator NewRotation = GetActorRotation();
+	NewRotation.Yaw += 45.0f;
+	SetActorRotation(NewRotation);
 }
 
