@@ -26,6 +26,15 @@ void AFPSCharacter::BeginPlay()
 		FPSCamera = Cameras[0];
 	}
 
+	//Busca el componente de interaccion entre los componentes del personaje.
+	InteractionComponent = FindComponentByClass<UInteractionComponent>();
+
+	//Asigna la camara al componente de interaccion.
+	if (InteractionComponent && FPSCamera)
+	{
+		InteractionComponent->Camera = FPSCamera;
+	}
+
 	//Establece la velocidad del personaje.
 	GetCharacterMovement()->MaxWalkSpeed = NormalSpeed;
 }
@@ -117,6 +126,15 @@ void AFPSCharacter::StopRun()
 	bIsRunning = false;
 }
 
+void AFPSCharacter::Interact()
+{
+	//Si el componente de interaccion esta asignado, llama a su metodo Interact.
+	if (InteractionComponent)
+	{
+		InteractionComponent->Interact();
+	}
+}
+
 void AFPSCharacter::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
@@ -148,6 +166,7 @@ void AFPSCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCompon
 		EnhancedInput->BindAction(LookHorizontalAction, ETriggerEvent::Triggered, this, &AFPSCharacter::LookHorizontal);
 		EnhancedInput->BindAction(RunAction, ETriggerEvent::Started, this, &AFPSCharacter::StartRun);
 		EnhancedInput->BindAction(RunAction, ETriggerEvent::Completed, this, &AFPSCharacter::StopRun);
+		EnhancedInput->BindAction(InteractAction, ETriggerEvent::Started, this, &AFPSCharacter::Interact);
 	}
 
 	//Registra el Mapping Context en el PlayerController.

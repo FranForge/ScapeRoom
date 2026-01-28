@@ -10,6 +10,7 @@
 #include "GameFramework/Character.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "Camera/CameraComponent.h"
+#include "InteractionComponent.h"
 #include "FPSCharacter.generated.h"
 
 UCLASS()
@@ -46,6 +47,10 @@ protected:
 	UPROPERTY(EditDefaultsOnly, Category = "Input")
 	UInputAction* RunAction;
 
+	UPROPERTY(EditDefaultsOnly, Category = "Input")
+	UInputAction* InteractAction;
+
+
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Look")
 	UCameraComponent* FPSCamera;
 
@@ -61,6 +66,7 @@ protected:
 	UPROPERTY(EditAnywhere, Category = "Look")
 	float LookVerticalMaxAngle = 89.0f;
 
+
 	UPROPERTY(EditAnywhere, Category = "Movement")
 	float NormalSpeed = 600.0f;
 
@@ -75,6 +81,11 @@ protected:
 
 	UPROPERTY(EditAnywhere, Category = "Movement")
 	float StaminaRecoveryRate = 10.0f;
+
+	
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Interaction")
+	UInteractionComponent* InteractionComponent;
 
 
 	/// <summary>
@@ -138,6 +149,11 @@ protected:
 	/// Hace que el jugador deje de correr.
 	/// </summary>
 	virtual void StopRun();
+
+	/// <summary>
+	/// Interactua usando el componente si puede.
+	/// </summary>
+	virtual void Interact();
 
 public:	
 	virtual void Tick(float DeltaTime) override;

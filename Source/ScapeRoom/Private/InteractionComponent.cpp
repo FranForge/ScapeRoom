@@ -71,7 +71,7 @@ bool UInteractionComponent::CanInteract()
 	}
 
 	//Si ha llegado hasta aqui, se puede interactuar.
-	UE_LOG(LogTemp, Warning, TEXT("Puede interactuar con %s"), *HitActor->GetName());
+	UE_LOG(LogTemp, Log, TEXT("Puede interactuar con %s"), *HitActor->GetName());
 	CurrentInteractableActor = HitActor;
 
 	return true;
@@ -79,8 +79,12 @@ bool UInteractionComponent::CanInteract()
 
 void UInteractionComponent::Interact()
 {
+	UE_LOG(LogTemp, Log, TEXT("Intentando interactuar."));
+
 	//Si no puede interactuar no hace nada.
 	if (!CanInteract()) return;
+
+	UE_LOG(LogTemp, Log, TEXT("Interactuando con %s"), *CurrentInteractableActor->GetName());
 
 	//Llama a la funcion de interaccion del actor interactuable y le pasa el actor propietario de este componente.
 	IInteractable::Execute_Interact(CurrentInteractableActor, GetOwner());
