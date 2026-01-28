@@ -17,6 +17,11 @@ class SCAPEROOM_API AFPSCharacter : public ACharacter
 {
 	GENERATED_BODY()
 
+private:
+/// <summary>
+/// Clase que representa al personaje jugable en primera persona.
+/// </summary>
+
 public:
 	AFPSCharacter();
 
