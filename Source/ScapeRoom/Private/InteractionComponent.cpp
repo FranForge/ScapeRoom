@@ -87,7 +87,7 @@ void UInteractionComponent::Interact()
 	UE_LOG(LogTemp, Log, TEXT("Intentando interactuar."));
 
 	//Si no puede interactuar no hace nada.
-	if (bCanInteract) return;
+	if (!bCanInteract) return;
 
 	UE_LOG(LogTemp, Log, TEXT("Interactuando con %s"), *CurrentInteractableActor->GetName());
 
