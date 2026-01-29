@@ -27,6 +27,17 @@ void AFPSPlayerController::BeginPlay()
 			FPSUserWidget = Cast<UFPSUserWidget>(HUDWidget);
 		}
 	}
+
+	//Si el Pawn que esta poseyendo existe realiza ajustes adicionales.
+	if (APawn* MyPawn = GetPawn())
+	{
+		//Intenta realizar ajustes si el Pawn poseido es FPSCharacter.
+		if (AFPSCharacter* MyChar = Cast<AFPSCharacter>(MyPawn))
+		{
+			//Se suscribe a los delegados del personaje para actualizar la UI.
+			MyChar->OnInteractionAvailabilityChanged.AddDynamic(FPSUserWidget, &UFPSUserWidget::DisplayInteractText);
+		}
+	}
 }
 
 void AFPSPlayerController::SetupInputComponent()

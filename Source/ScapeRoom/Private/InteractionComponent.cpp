@@ -21,16 +21,17 @@ void UInteractionComponent::BeginPlay()
 void UInteractionComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
-	CanInteract();
+	UpdateInteractionAvailability();
 }
 
-bool UInteractionComponent::CanInteract()
+void UInteractionComponent::UpdateInteractionAvailability()
 {
 	//Si no existe la camara, no se puede interactuar.
 	if (!Camera)
 	{
 		CurrentInteractableActor = nullptr;
-		return false;
+		bCanInteract = false;
+		return;
 	}
 
 	//Lanza un Line Trace desde la camara hacia delante para ver si hay algo con lo que interactuar.
@@ -50,7 +51,8 @@ bool UInteractionComponent::CanInteract()
 	if (!bHit)
 	{
 		CurrentInteractableActor = nullptr;
-		return false;
+		bCanInteract = false;
+		return;
 	}
 
 	//Obtiene el actor con el que ha colisionado.
@@ -60,21 +62,24 @@ bool UInteractionComponent::CanInteract()
 	if (!HitActor)
 	{
 		CurrentInteractableActor = nullptr;
-		return false;
+		bCanInteract = false;
+		return;
 	}
 
 	//Si no implementa la interfaz de interactuable, no se puede interactuar.
 	if (!HitActor->Implements<UInteractable>())
 	{
 		CurrentInteractableActor = nullptr;
-		return false;
+		bCanInteract = false;
+		return;
 	}
 
 	//Si ha llegado hasta aqui, se puede interactuar.
 	UE_LOG(LogTemp, Log, TEXT("Puede interactuar con %s"), *HitActor->GetName());
 	CurrentInteractableActor = HitActor;
 
-	return true;
+	bCanInteract = true;
+	return;
 }
 
 void UInteractionComponent::Interact()
@@ -82,7 +87,7 @@ void UInteractionComponent::Interact()
 	UE_LOG(LogTemp, Log, TEXT("Intentando interactuar."));
 
 	//Si no puede interactuar no hace nada.
-	if (!CanInteract()) return;
+	if (bCanInteract) return;
 
 	UE_LOG(LogTemp, Log, TEXT("Interactuando con %s"), *CurrentInteractableActor->GetName());
 

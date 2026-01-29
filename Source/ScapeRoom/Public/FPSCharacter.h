@@ -13,6 +13,8 @@
 #include "InteractionComponent.h"
 #include "FPSCharacter.generated.h"
 
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnInteractionAvailability, bool, bAvailability);
+
 UCLASS()
 class SCAPEROOM_API AFPSCharacter : public ACharacter
 {
@@ -153,6 +155,13 @@ protected:
 	virtual void Interact();
 
 public:	
+
+	/// <summary>
+	/// Evento que se lanza cuando cambia la disponibilidad de interaccion.
+	/// </summary>
+	UPROPERTY(BlueprintAssignable, Category = "Events")
+	FOnInteractionAvailability OnInteractionAvailabilityChanged;
+
 	virtual void Tick(float DeltaTime) override;
 
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;

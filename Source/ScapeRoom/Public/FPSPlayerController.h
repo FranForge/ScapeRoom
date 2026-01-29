@@ -10,6 +10,7 @@
 #include "Blueprint/UserWidget.h"
 #include "FPSUserWidget.h"
 #include "GameFramework/PlayerController.h"
+#include "FPSCharacter.h"
 #include "FPSPlayerController.generated.h"
 
 /**

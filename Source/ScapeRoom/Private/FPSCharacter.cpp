@@ -151,6 +151,9 @@ void AFPSCharacter::Tick(float DeltaTime)
 	{
 		RecoverStamina(DeltaTime);
 	}
+
+	//Actualiza la disponibilidad de interaccion del componente de interaccion.
+	OnInteractionAvailabilityChanged.Broadcast(InteractionComponent->bCanInteract);
 }
 
 void AFPSCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)

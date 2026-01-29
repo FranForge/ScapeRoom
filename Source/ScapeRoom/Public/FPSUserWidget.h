@@ -27,6 +27,7 @@ public:
 	/// Muestra o no el texto de interaccion.
 	/// </summary>
 	/// <param name="bDisplay"></param>
+	UFUNCTION()
 	void DisplayInteractText(bool bDisplay);
 
 };

@@ -36,10 +36,15 @@ public:
 	float InteractionDistance = 200.0f;
 
 	/// <summary>
-	/// Indica si se puede interactuar o no con algo.
+	/// Actualiza si se puede interactuar o no con algun actor.
 	/// </summary>
 	/// <returns></returns>
-	bool CanInteract();
+	void UpdateInteractionAvailability();
+
+	/// <summary>
+	/// Indica si se puede interactuar con algun actor o no.
+	/// </summary>
+	bool bCanInteract;
 
 	/// <summary>
 	/// Actor con el que se puede interactuar actualmente.
