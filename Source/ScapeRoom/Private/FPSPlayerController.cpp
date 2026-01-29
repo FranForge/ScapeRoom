@@ -13,6 +13,16 @@ void AFPSPlayerController::BeginPlay()
 	{
 		Subsystem->AddMappingContext(DefaultMappingContext, 0);
 	}
+
+	//Instancia la UI del jugador y la agrega al viewport.
+	if (HUDWidgetClass)
+	{
+		HUDWidget = CreateWidget<UUserWidget>(this, HUDWidgetClass);
+		if(HUDWidget)
+		{
+			HUDWidget->AddToViewport();
+		}
+	}
 }
 
 void AFPSPlayerController::SetupInputComponent()
