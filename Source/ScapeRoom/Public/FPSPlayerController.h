@@ -8,6 +8,7 @@
 #include "EnhancedInputComponent.h"
 #include "EnhancedInputSubsystems.h"
 #include "Blueprint/UserWidget.h"
+#include "FPSUserWidget.h"
 #include "GameFramework/PlayerController.h"
 #include "FPSPlayerController.generated.h"
 
@@ -37,6 +38,11 @@ protected:
 	/// Instancia de la UI del jugador.
 	/// </summary>
 	UUserWidget* HUDWidget;
+
+	/// <summary>
+	/// UI personalizada del jugador.
+	/// </summary>
+	UFPSUserWidget* FPSUserWidget;
 
 	virtual void BeginPlay() override;
 

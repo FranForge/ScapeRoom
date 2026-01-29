@@ -20,7 +20,11 @@ void AFPSPlayerController::BeginPlay()
 		HUDWidget = CreateWidget<UUserWidget>(this, HUDWidgetClass);
 		if(HUDWidget)
 		{
+			//Muestra la UI en la pantalla.
 			HUDWidget->AddToViewport();
+
+			//Ahora intenta castear la UI a UFPSUserWidget para tener acceso a sus funciones personalizadas.
+			FPSUserWidget = Cast<UFPSUserWidget>(HUDWidget);
 		}
 	}
 }
