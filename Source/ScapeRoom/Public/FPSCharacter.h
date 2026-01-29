@@ -30,9 +30,6 @@ protected:
 	virtual void BeginPlay() override;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Input")
-	UInputMappingContext* DefaultMappingContext;
-
-	UPROPERTY(EditDefaultsOnly, Category = "Input")
 	UInputAction* MoveForwardAction;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Input")

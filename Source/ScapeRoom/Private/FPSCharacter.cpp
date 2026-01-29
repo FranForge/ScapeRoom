@@ -168,15 +168,5 @@ void AFPSCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCompon
 		EnhancedInput->BindAction(RunAction, ETriggerEvent::Completed, this, &AFPSCharacter::StopRun);
 		EnhancedInput->BindAction(InteractAction, ETriggerEvent::Started, this, &AFPSCharacter::Interact);
 	}
-
-	//Registra el Mapping Context en el PlayerController.
-	if (APlayerController* PC = Cast<APlayerController>(GetController()))
-	{
-		if (UEnhancedInputLocalPlayerSubsystem* Subsystem = 
-			ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(PC->GetLocalPlayer()))
-		{
-			Subsystem->AddMappingContext(DefaultMappingContext, 0);
-		}
-	}
 }
 
