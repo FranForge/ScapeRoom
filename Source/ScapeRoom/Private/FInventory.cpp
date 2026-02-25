@@ -16,6 +16,12 @@ void FInventory::AddItem(UItemDefinition* ItemDef, int32 Quantity)
 	//Si el elemento a agregar es nulo o la cantidad es menor o igual a 0, no se agrega nada.
 	if (!ItemDef || Quantity <= 0) return;
 
+	if(GEngine)
+	{
+		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, FString::Printf(TEXT("Agregando %d de %s (%s) al inventario"), 
+										Quantity, *ItemDef->DisplayName.ToString(), *ItemDef->ItemID.ToString()));
+	}
+
 	//Obtiene la cantidad maxima que se puede agregar por stack para el item a agregar.
 	int32 MaxStackSize = ItemDef->MaxStackSize;
 
